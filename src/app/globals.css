@@ -1,26 +1,359 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --font-primary: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  
+  /* Color Palette - Energy Theme (Sleek Apple Dark Mode) */
+  --bg-main: #04060a;
+  --bg-card: rgba(18, 24, 38, 0.45);
+  --bg-card-hover: rgba(26, 34, 54, 0.65);
+  --border-color: rgba(255, 255, 255, 0.04);
+  --border-focus: #10b981;
+  
+  --primary: #10b981; /* Apple Energy Green */
+  --primary-glow: rgba(16, 185, 129, 0.15);
+  --primary-hover: #34c759; /* Bright Apple Green */
+  
+  --secondary: #0a84ff; /* Apple Solar Blue */
+  --secondary-glow: rgba(10, 132, 255, 0.15);
+  
+  --text-primary: #f5f5f7; /* Apple Off-White */
+  --text-secondary: #86868b; /* Apple Gray */
+  --text-muted: #48484a; /* Apple Muted Gray */
+  
+  /* Status Colors (Apple curation) */
+  --status-novo: #0a84ff; /* Blue */
+  --status-novo-bg: rgba(10, 132, 255, 0.12);
+  
+  --status-contato: #ff9500; /* Orange */
+  --status-contato-bg: rgba(255, 149, 0, 0.12);
+  
+  --status-convertido: #30d5c8; /* Teal / Solar Green */
+  --status-convertido-bg: rgba(48, 213, 200, 0.12);
+  
+  --status-perdido: #ff453a; /* Red */
+  --status-perdido-bg: rgba(255, 69, 58, 0.12);
+
+  /* Shadows & Blur */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.5);
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  --blur-glass: 25px;
+  
+  /* Standard Apple Transition */
+  --transition-apple: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-main);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font-family: var(--font-primary);
+  min-height: 100vh;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* Background floating blobs for breathing life */
+.blob-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.12;
+  animation: float 25s infinite alternate ease-in-out;
+}
+
+.blob1 {
+  width: 450px;
+  height: 450px;
+  background: var(--primary);
+  top: -10%;
+  left: -5%;
+  animation-duration: 22s;
+}
+
+.blob2 {
+  width: 550px;
+  height: 550px;
+  background: var(--secondary);
+  bottom: -15%;
+  right: -5%;
+  animation-duration: 28s;
+  animation-delay: -7s;
+}
+
+.blob3 {
+  width: 350px;
+  height: 350px;
+  background: #ff9500;
+  top: 35%;
+  left: 40%;
+  animation-duration: 20s;
+  animation-delay: -3s;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes backdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(80px, 40px) scale(1.15);
+  }
+  100% {
+    transform: translate(-40px, 100px) scale(0.9);
+  }
+}
+
+@keyframes pulseDot {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4);
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+    box-shadow: 0 0 8px 3px rgba(37, 211, 102, 0.2);
+  }
+}
+
+@keyframes pulseBadge {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.02);
+  }
+  50% {
+    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* Basic utility classes */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+}
+
+.glass-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(var(--blur-glass));
+  -webkit-backdrop-filter: blur(var(--blur-glass));
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: var(--shadow-glass);
+  transition: var(--transition-apple);
+}
+
+.glass-card:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.6);
+}
+
+/* Typography styles */
+h1, h2, h3, h4 {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+}
+
+/* Standard Inputs & Labels */
+label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+input, select, textarea {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  color: var(--text-primary);
+  padding: 0.8rem 1.1rem;
+  font-family: var(--font-primary);
+  font-size: 0.95rem;
+  transition: var(--transition-apple);
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.4;
+}
+
+/* Premium Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-apple);
+  text-decoration: none;
+  gap: 0.5rem;
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+.btn-primary {
+  background: #ffffff;
+  color: #060911;
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.08);
+}
+
+.btn-primary:hover {
+  background: #f5f5f7;
+  box-shadow: 0 6px 22px rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+}
+
+/* Side Drawer (Apple Style Slide Over) */
+.drawer-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 99;
+  animation: backdropFadeIn 0.3s ease-out forwards;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 100%;
+  max-width: 480px;
+  background: rgba(12, 16, 26, 0.82);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: -15px 0 45px rgba(0, 0, 0, 0.7);
+  z-index: 100;
+  padding: 2.5rem 2rem;
+  overflow-y: auto;
+  animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem 1rem;
+  }
+  
+  .drawer {
+    max-width: 100%;
+  }
 }

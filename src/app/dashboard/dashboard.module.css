@@ -1,0 +1,834 @@
+.dashboard {
+  min-height: 100vh;
+  padding-bottom: 4rem;
+  position: relative;
+}
+
+.header {
+  border-bottom: 1px solid var(--border-color);
+  background: rgba(4, 6, 10, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 1.25rem 0;
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.titleGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logoIcon {
+  font-size: 2.2rem;
+  text-shadow: 0 0 15px rgba(255, 149, 0, 0.5);
+}
+
+.title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #ffffff, #86868b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* KPI Row containing Stats and Conversion Widget */
+.topGrid {
+  display: grid;
+  grid-template-columns: 3fr 1.6fr;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.gridStats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.statCard {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-apple);
+}
+
+.statCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+.statCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+}
+
+.statCardNovo::before { background: var(--status-novo); }
+.statCardContato::before { background: var(--status-contato); }
+.statCardConvertido::before { background: var(--status-convertido); }
+.statCardPerdido::before { background: var(--status-perdido); }
+
+.statCard:hover.statCardNovo { box-shadow: 0 10px 30px rgba(10, 132, 255, 0.12); }
+.statCard:hover.statCardContato { box-shadow: 0 10px 30px rgba(255, 149, 0, 0.12); }
+.statCard:hover.statCardConvertido { box-shadow: 0 10px 30px rgba(48, 213, 200, 0.12); }
+.statCard:hover.statCardPerdido { box-shadow: 0 10px 30px rgba(255, 69, 58, 0.12); }
+
+.statLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+}
+
+.statVal {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+/* Apple SVG Donut / Circular Conversion Rate */
+.conversionCard {
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 24px;
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  box-shadow: var(--shadow-glass);
+  backdrop-filter: blur(var(--blur-glass));
+  -webkit-backdrop-filter: blur(var(--blur-glass));
+  transition: var(--transition-apple);
+  position: relative;
+  overflow: hidden;
+}
+
+.conversionCard:hover {
+  border-color: rgba(48, 213, 200, 0.25);
+  box-shadow: 0 15px 35px rgba(48, 213, 200, 0.1);
+  transform: translateY(-4px);
+}
+
+.conversionLeft {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.conversionTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+}
+
+.conversionInfo {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.conversionRight {
+  flex-shrink: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circleChart {
+  width: 90px;
+  height: 90px;
+  transform: rotate(-90deg);
+}
+
+.circleBg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.04);
+  stroke-width: 6;
+}
+
+.circleVal {
+  fill: none;
+  stroke-width: 6;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s ease-in-out;
+}
+
+.circleText {
+  position: absolute;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+/* Apple-style Segmented Control Tabs (Surprise) */
+.tabsContainer {
+  display: flex;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  padding: 0.25rem;
+  width: 100%;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  gap: 0.25rem;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.tabButton {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
+  border-radius: 11px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-primary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition-apple);
+}
+
+.tabButton:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.tabButtonActive {
+  background: #ffffff;
+  color: #04060a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.tabCount {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+  font-weight: 700;
+  transition: var(--transition-apple);
+}
+
+.tabButtonActive .tabCount {
+  background: rgba(0, 0, 0, 0.06);
+  color: #04060a;
+}
+
+/* Controls / Filter Bar */
+.filterBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.searchWrapper {
+  flex: 1;
+  min-width: 280px;
+  position: relative;
+}
+
+.searchInput {
+  padding-left: 2.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+.searchIcon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+  font-size: 0.95rem;
+}
+
+.filterSelect {
+  width: auto;
+  min-width: 180px;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2386868b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.1rem;
+  padding-right: 2.5rem;
+  appearance: none;
+  background-color: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.05);
+  font-weight: 600;
+}
+
+/* Leads Table & Grid */
+.leadsContainer {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  animation: fadeIn 0.5s ease-out;
+  transition: var(--transition-apple);
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.table th {
+  background: rgba(255, 255, 255, 0.005);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1.25rem 1.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  letter-spacing: 0.08em;
+}
+
+.table td {
+  padding: 1.25rem 1.75rem;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: middle;
+  font-size: 0.95rem;
+  transition: var(--transition-apple);
+}
+
+.rowLead {
+  cursor: pointer;
+  transition: var(--transition-apple);
+}
+
+.rowLead:hover {
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.rowLeadSelected {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.leadName {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+}
+
+.leadDate {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.9rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  animation: pulseBadge 3s infinite;
+}
+
+.badgeNovo {
+  color: var(--secondary);
+  background: var(--status-novo-bg);
+  border: 1px solid rgba(10, 132, 255, 0.15);
+}
+
+.badgeContato {
+  color: var(--status-contato);
+  background: var(--status-contato-bg);
+  border: 1px solid rgba(255, 149, 0, 0.15);
+}
+
+.badgeConvertido {
+  color: var(--status-convertido);
+  background: var(--status-convertido-bg);
+  border: 1px solid rgba(48, 213, 200, 0.15);
+}
+
+.badgePerdido {
+  color: var(--status-perdido);
+  background: var(--status-perdido-bg);
+  border: 1px solid rgba(255, 69, 58, 0.15);
+}
+
+/* Status select drop down inside table */
+.statusSelect {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.85rem;
+  width: auto;
+  border-radius: 10px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  font-weight: 700;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 0.75rem;
+  padding-right: 2rem;
+}
+
+/* Actions cell buttons */
+.actionsCell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.whatsappBtn {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #04060a;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: var(--transition-apple);
+  position: relative;
+}
+
+.whatsappBtn::before {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #ffffff;
+  border-radius: 50%;
+  left: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.8;
+  animation: pulseDot 2s infinite;
+}
+
+.whatsappBtnText {
+  padding-left: 0.5rem;
+}
+
+.whatsappBtn:hover {
+  background: linear-gradient(135deg, #34c759, #10b981);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(48, 213, 200, 0.3);
+}
+
+/* Empty State */
+.emptyState {
+  padding: 5rem 2rem;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.2;
+}
+
+.emptyText {
+  font-size: 1rem;
+}
+
+/* Drawer UI Elements (Slide Over details) */
+.drawerHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2.5rem;
+}
+
+.drawerTitleGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.drawerTitle {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.drawerSubtitle {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+
+.drawerClose {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: var(--transition-apple);
+}
+
+.drawerClose:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: rotate(90deg);
+  color: var(--text-primary);
+}
+
+.drawerSection {
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  letter-spacing: 0.08em;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.detailCard {
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 14px;
+  padding: 1.1rem;
+  font-size: 0.95rem;
+}
+
+.lossCard {
+  background: rgba(255, 69, 58, 0.04);
+  border: 1px solid rgba(255, 69, 58, 0.15);
+  border-radius: 14px;
+  padding: 1.1rem;
+  color: #ff453a;
+  font-size: 0.95rem;
+}
+
+/* Sales Funnel visual stepper in drawer */
+.funnelStepper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1.5rem 0;
+  position: relative;
+}
+
+.funnelLine {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.05);
+  z-index: 1;
+}
+
+.funnelLineActive {
+  background: linear-gradient(90deg, var(--secondary), var(--status-convertido));
+}
+
+.funnelStep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+  position: relative;
+  width: 25%;
+}
+
+.funnelStepCircle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #121826;
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  transition: var(--transition-apple);
+}
+
+.funnelStepActive .funnelStepCircle {
+  border-color: var(--secondary);
+  color: #ffffff;
+  background: var(--secondary);
+  box-shadow: 0 0 10px rgba(10, 132, 255, 0.4);
+}
+
+.funnelStepComplete .funnelStepCircle {
+  border-color: var(--status-convertido);
+  color: #04060a;
+  background: var(--status-convertido);
+  box-shadow: 0 0 10px rgba(48, 213, 200, 0.4);
+}
+
+.funnelStepLabel {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.funnelStepActive .funnelStepLabel {
+  color: #ffffff;
+}
+
+.funnelStepComplete .funnelStepLabel {
+  color: var(--status-convertido);
+}
+
+/* Timeline component */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  position: relative;
+  padding-left: 1rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.timelineItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  position: relative;
+}
+
+.timelineDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  margin-top: 6px;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.timelineDotActive {
+  background: var(--status-convertido);
+  box-shadow: 0 0 8px var(--status-convertido);
+}
+
+.timelineContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.timelineLabel {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.timelineTime {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* Message customizer textbox */
+.messageTextarea {
+  width: 100%;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 0.8rem;
+  color: var(--text-primary);
+  resize: vertical;
+}
+
+.whatsappDrawerBtn {
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  color: #04060a;
+  width: 100%;
+  padding: 0.9rem;
+  border-radius: 12px;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.2);
+}
+
+.whatsappDrawerBtn:hover {
+  background: linear-gradient(135deg, #34c759, #25d366);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Modal form style for Quick Add Lead */
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 199;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: backdropFadeIn 0.3s ease-out forwards;
+}
+
+.modal {
+  width: 100%;
+  max-width: 480px;
+  background: rgba(18, 24, 38, 0.85);
+  backdrop-filter: blur(var(--blur-glass));
+  -webkit-backdrop-filter: blur(var(--blur-glass));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  box-shadow: var(--shadow-glass);
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  position: relative;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.modalClose {
+  background: rgba(255, 255, 255, 0.04);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: var(--transition-apple);
+}
+
+.modalClose:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+.mobileCardList {
+  display: none;
+}
+
+/* Mobile responsive fixes */
+@media (max-width: 1024px) {
+  .topGrid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .table {
+    display: none;
+  }
+  
+  .mobileCardList {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 1.5rem 1rem;
+  }
+  
+  .mobileLeadCard {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 1.25rem;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-apple);
+  }
+  
+  .mobileLeadCard:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+  
+  .mobileCardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+  }
+  
+  .mobileCardBody {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+  
+  .mobileCardActions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
