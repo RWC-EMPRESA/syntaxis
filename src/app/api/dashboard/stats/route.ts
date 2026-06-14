@@ -18,7 +18,7 @@ export async function GET() {
       PERDIDO: 0,
     };
 
-    counts.forEach((item) => {
+    counts.forEach((item: { status: string; _count: { _all: number } }) => {
       const status = item.status as keyof Omit<typeof stats, "total">;
       if (status in stats) {
         stats[status] = item._count._all;
